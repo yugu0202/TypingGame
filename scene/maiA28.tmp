@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnccdta78prn1"]
+
+[ext_resource type="PackedScene" uid="uid://bl2o75etlr1ev" path="res://scene/TypingForm.tscn" id="1_ssfxs"]
+
+[node name="main" type="Node2D"]
+
+[node name="TypingForm" parent="." instance=ExtResource("1_ssfxs")]

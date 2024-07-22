@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://5rcxp1jv37hs"]
+
+[ext_resource type="Script" path="res://script/ui.gd" id="1_gumpe"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gumpe")
+
+[node name="Time" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -560.0
+offset_top = -284.0
+offset_right = -365.0
+offset_bottom = -242.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "0.0000000000"
+
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="Result" type="ColorRect" parent="."]
+visible = false
+modulate = Color(0.501961, 0.501961, 0.501961, 1)
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="CompleteText" type="Label" parent="Result"]
+layout_mode = 1
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "Clear"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
