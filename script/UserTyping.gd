@@ -1,50 +1,59 @@
 extends Control
 
-signal typing_complete
+signal typing_complete(id: int)
 signal typing_start
 
-var topics = ["typing", "hello", "world", "test"]
-var topics_view = []
+var topics: Array
+var children: Array
 var typing_text = ""
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	for topic in topics:
-		topics_view.append("[color=gray]" + topic + "[/color]")
+func _ready() -> void:
+	var _topics = [[1, "typing"], [2, "hello"], [3, "world"], [4, "easy"]]
+	children = get_children()
+	init_topics(_topics)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	$Typing1.text = topics_view[0]
-	$Typing2.text = topics_view[1]
-	$Typing3.text = topics_view[2]
-	$Typing4.text = topics_view[3]
+func _process(_delta) -> void:
+	for i in children.size():
+		children[i].text = topics[i].view
 
-func _input(event):
+
+func _input(event) -> void:
 	if event is InputEventKey:
 		var typed = PackedByteArray([event.unicode]).get_string_from_utf8()
 		if event.is_pressed() and not event.is_echo() and typed != "":
-			typing_text += typed
+			if not on_typing(typed):
+				var tween = create_tween()
+				tween.tween_property(self, "modulate", Color.RED, 0.2)
+				tween.tween_property(self, "modulate", Color.WHITE, 0.1)
 
-			var hit = false
-			for topic in topics:
-				if check_typing(typing_text ,topic):
-					topics_view[topics.find(topic)] = "[color=red]" + typing_text + "[/color][color=gray]" + topic.erase(0, typing_text.length()) + "[/color]"
 
-					if typing_text == topic:
-						print(typing_text)
-						print("complete")
+func on_typing(typed: String) -> bool:
+	typing_text += typed
 
-					hit = true
-				else:
-					topics_view[topics.find(topic)] = "[color=gray]" + topic + "[/color]"
+	var hit = false
+	for topic in topics:
+		hit = hit or topic.highlight(typing_text)
+		if topic.is_complete(typing_text):
+			reset_highlight()
+			print("complete")
+			print(topic.id, topic.topic)
+			emit_signal("typing_complete", topic.id)
+			return true
 
-			if not hit:
-				typing_text = ""
-				for topic in topics:
-					if check_typing(typed ,topic):
-						typing_text = typed
-						topics_view[topics.find(topic)] = "[color=red]" + typing_text + "[/color][color=gray]" + topic.erase(0, typing_text.length()) + "[/color]"
+	if hit: return true
+
+	typing_text = typed
+	for topic in topics:
+		hit = hit or topic.highlight(typing_text)
+
+	if hit: return true
+
+	typing_text = ""
+
+	return false
 
 
 func check_typing(text, topic):
@@ -57,5 +66,17 @@ func check_typing(text, topic):
 	return false
 
 
-func set_topic(new_topic):
-	emit_signal("typing_start")
+func reset_highlight():
+	for topic in topics:
+		topic.reset_highlight()
+
+
+func set_topic(new_topic, complete_id):
+	for i in range(0, topics.size()):
+		if topics[i].id == complete_id:
+			topics[i].set_topic(new_topic)
+			return
+
+
+func init_topics(initial_topics: Array):
+	topics = initial_topics.map(func (x): return Topic.new(x[0], x[1]))

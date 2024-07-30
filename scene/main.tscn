@@ -1,22 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://dnccdta78prn1"]
+[gd_scene load_steps=3 format=3 uid="uid://dnccdta78prn1"]
 
 [ext_resource type="Script" path="res://script/main.gd" id="1_ew5lw"]
 [ext_resource type="PackedScene" uid="uid://bl2o75etlr1ev" path="res://scene/TypingForm.tscn" id="1_ssfxs"]
-[ext_resource type="PackedScene" uid="uid://5rcxp1jv37hs" path="res://scene/ui.tscn" id="2_ebq4k"]
 
 [node name="main" type="Node2D"]
-position = Vector2(576, 288)
 script = ExtResource("1_ew5lw")
 
 [node name="TypingForm" parent="." instance=ExtResource("1_ssfxs")]
-
-[node name="UI" parent="." instance=ExtResource("2_ebq4k")]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [connection signal="typing_complete" from="TypingForm" to="." method="_on_typing_form_typing_complete"]
-[connection signal="typing_complete" from="TypingForm" to="UI" method="_on_typing_form_typing_complete"]
-[connection signal="typing_start" from="TypingForm" to="UI" method="_on_typing_form_typing_start"]

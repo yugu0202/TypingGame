@@ -13,17 +13,10 @@ script = ExtResource("1_gumpe")
 
 [node name="Time" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -560.0
-offset_top = -284.0
-offset_right = -365.0
-offset_bottom = -242.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = 24.0
+offset_top = 32.0
+offset_right = 219.0
+offset_bottom = 74.0
 theme_override_font_sizes/font_size = 30
 text = "0.0000000000"
 
@@ -35,7 +28,7 @@ autostart = true
 [node name="Result" type="ColorRect" parent="."]
 visible = false
 modulate = Color(0.501961, 0.501961, 0.501961, 1)
-layout_mode = 0
+layout_mode = 1
 offset_right = 1152.0
 offset_bottom = 648.0
 
